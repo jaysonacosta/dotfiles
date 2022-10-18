@@ -37,7 +37,17 @@ then
     brew bundle --file ~/.dotfiles/Brewfile
 elif [ "$system_choice" == "2" ]
 then
-    echo "2"
+    # Linux
+    sudo apt-add-repository ppa:fish-shell/release-3
+    sudo apt update
+    sudo apt install fish
 fi
+
+# Fisher
+curl -sL https://git.io/fisher | source && fisher install jorgebucaran/fisher
+fisher install IlanCosman/tide@v5
+
+# Fish default shell
+chsh -s $(which fish)
 
 echo 

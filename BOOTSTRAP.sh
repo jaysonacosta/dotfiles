@@ -26,28 +26,33 @@ then
 fi
 
 # Create symlinks
+echo "Creating symlinks..."
 ln -s ~/.dotfiles/.gitconfig ~/.gitconfig
 ln -s ~/.dotfiles/.vimrc ~/.vimrc
 
 if [ "$system_choice" == "1" ]
 then
     # Mac
-    echo "Installing Homebrew"
+    echo "Installing Homebrew..."
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
     brew bundle --file ~/.dotfiles/Brewfile
 elif [ "$system_choice" == "2" ]
 then
     # Linux
+    echo "Instaling fish..."
+    sudo apt update
+    sudo apt upgrade
+    sudo apt install curl
     sudo apt-add-repository ppa:fish-shell/release-3
     sudo apt update
     sudo apt install fish
 fi
 
+echo "Installing Fisher..."
 # Fisher
 curl -sL https://git.io/fisher | source && fisher install jorgebucaran/fisher
-fisher install IlanCosman/tide@v5
 
-# Fish default shell
-chsh -s $(which fish)
-
-echo 
+echo "Installing vim-plug..."
+# vim-plug
+curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
+    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim

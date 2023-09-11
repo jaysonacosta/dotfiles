@@ -15,7 +15,7 @@ if [[ "$system_choice" != "1" && "$system_choice" != "2" ]]; then
     exit 0
 fi
 
-Create symlinks
+# Create symlinks
 echo "Creating symlinks..."
 ln -s ~/.dotfiles/.gitconfig ~/.gitconfig
 ln -s ~/.dotfiles/.vimrc ~/.vimrc

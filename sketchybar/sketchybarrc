@@ -14,7 +14,7 @@ PLUGIN_DIR="$CONFIG_DIR/plugins"
 # If you are looking for other colors, see the color picker:
 # https://felixkratz.github.io/SketchyBar/config/tricks#color-picker
 
-sketchybar --bar position=top height=35 blur_radius=30 color=0x40000000 y_offset=5 margin=5 corner_radius=10
+sketchybar --bar position=top height=35 blur_radius=15 color=0x40000000 y_offset=10 margin=10 corner_radius=10
 
 ##### Changing Defaults #####
 # We now change some default values, which are applied to all further items.
@@ -81,13 +81,20 @@ sketchybar --add item chevron left \
 # https://felixkratz.github.io/SketchyBar/config/events
 
 sketchybar --add item clock right \
-           --set clock padding_left=10 padding_right=10 update_freq=10 icon=􀐬 script="$PLUGIN_DIR/clock.sh" \
+           --set clock update_freq=10 icon=􀐬 script="$PLUGIN_DIR/clock.sh" \
            --add item volume right \
            --set volume script="$PLUGIN_DIR/volume.sh" \
            --subscribe volume volume_change \
            --add item battery right \
            --set battery update_freq=120 script="$PLUGIN_DIR/battery.sh" \
            --subscribe battery system_woke power_source_change
+
+# sketchybar --add bracket space space --set space blur_radius=30 background.color=0x40000000 background.corner_radius=10
+# sketchybar --add bracket tests front_app --set tests blur_radius=30 background.color=0x40000000 background.corner_radius=10
+
+sketchybar --add bracket clock_bracket clock --set clock_bracket blur_radius=30 background.color=0xffffffff background.corner_radius=10
+sketchybar --add bracket volume_bracket volume --set volume_bracket blur_radius=30 background.color=0x40000000 background.corner_radius=10
+sketchybar --add bracket battery_bracket battery --set battery_bracket blur_radius=30 background.color=0x40000000 background.corner_radius=10
 
 ##### Force all scripts to run the first time (never do this in a script) #####
 sketchybar --update

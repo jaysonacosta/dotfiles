@@ -14,7 +14,7 @@ PLUGIN_DIR="$CONFIG_DIR/plugins"
 # If you are looking for other colors, see the color picker:
 # https://felixkratz.github.io/SketchyBar/config/tricks#color-picker
 
-sketchybar --bar position=top height=35 blur_radius=15 color=0x40000000 y_offset=10 margin=10 corner_radius=10
+sketchybar --bar position=top height=36 blur_radius=15 color=0x403b0f2c y_offset=8 margin=8 corner_radius=10 padding_left=4 padding_right=4 border_color=0x40efddc2 border_width=1
 
 ##### Changing Defaults #####
 # We now change some default values, which are applied to all further items.
@@ -22,8 +22,8 @@ sketchybar --bar position=top height=35 blur_radius=15 color=0x40000000 y_offset
 # https://felixkratz.github.io/SketchyBar/config/items
 
 default=(
-  padding_left=5
-  padding_right=5
+  padding_left=0
+  padding_right=0
   icon.font="SF Pro:Semibold:14.0"
   label.font="SF Mono:Bold:14.0"
   icon.color=0xffffffff
@@ -47,11 +47,11 @@ do
   space=(
     space="$sid"
     icon="${SPACE_ICONS[i]}"
-    icon.padding_left=7
-    icon.padding_right=7
-    background.color=0x40ffffff
-    background.corner_radius=5
-    background.height=25
+    align=center
+    background.color=0x40efddc2
+    background.corner_radius=6
+    background.height=28
+    width=24
     label.drawing=off
     script="$PLUGIN_DIR/space.sh"
     click_script="yabai -m space --focus $sid"
@@ -92,9 +92,13 @@ sketchybar --add item clock right \
 # sketchybar --add bracket space space --set space blur_radius=30 background.color=0x40000000 background.corner_radius=10
 # sketchybar --add bracket tests front_app --set tests blur_radius=30 background.color=0x40000000 background.corner_radius=10
 
-sketchybar --add bracket clock_bracket clock --set clock_bracket blur_radius=30 background.color=0xffffffff background.corner_radius=10
-sketchybar --add bracket volume_bracket volume --set volume_bracket blur_radius=30 background.color=0x40000000 background.corner_radius=10
-sketchybar --add bracket battery_bracket battery --set battery_bracket blur_radius=30 background.color=0x40000000 background.corner_radius=10
+sketchybar --set clock background.color=0xc068a0a4 background.corner_radius=6 label.padding_right=12 icon.padding_left=12 background.height=28 padding_right=0
+sketchybar --set volume background.color=0xc0814c5e background.corner_radius=6 label.padding_right=12 icon.padding_left=12 background.height=28 padding_right=3
+sketchybar --set battery background.color=0xc0dc4a44 background.corner_radius=6 label.padding_right=12 icon.padding_left=12 background.height=28 padding_right=3
+
+# sketchybar --add bracket clock_bracket clock --set clock_bracket blur_radius=30 background.color=0xffffffff background.corner_radius=10
+# sketchybar --add bracket volume_bracket volume --set volume_bracket blur_radius=30 background.color=0x40000000 background.corner_radius=10
+# sketchybar --add bracket battery_bracket battery --set battery_bracket blur_radius=30 background.color=0x40000000 background.corner_radius=10
 
 ##### Force all scripts to run the first time (never do this in a script) #####
 sketchybar --update

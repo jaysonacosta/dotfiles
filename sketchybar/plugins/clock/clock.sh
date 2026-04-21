@@ -4,4 +4,9 @@
 # the item invoking this script:
 # https://felixkratz.github.io/SketchyBar/config/events#events-and-scripting
 
-sketchybar --set "$NAME" icon=􀧞 label="$(date '+%b %d, %I:%M %p')"
+# ~/.config/sketchybar/plugins/clock/clock &
+# sketchybar --set "$NAME" icon=􀧞 label="$(date '+%b %d, %I:%M %p')"
+
+killall clock >/dev/null
+
+~/.config/sketchybar/plugins/clock/bin/clock

@@ -1,5 +1,16 @@
-[user]
-	name = Jayson Acosta
-	email = 36345453+jaysonacosta@users.noreply.github.com
-[init]
-	defaultBranch = main
+[include]
+    path = ~/.config/.gitconfig
+
+[core]
+    pager = delta
+	  editor = nvim
+
+[interactive]
+    diffFilter = delta --color-only
+
+[delta]
+    navigate = true  # use n and N to move between diff sections
+    dark = true      # or light = true, or omit for auto-detection
+
+[merge]
+    conflictStyle = zdiff3

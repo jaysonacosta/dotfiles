@@ -79,7 +79,7 @@ sketchybar --add item front_app left \
 # https://felixkratz.github.io/SketchyBar/config/events
 
 sketchybar --add item clock right \
-           --set clock update_freq=10 script="$PLUGIN_DIR/clock.sh" \
+           --set clock script="$PLUGIN_DIR/clock/clock.sh" \
            --add item volume right \
            --set volume script="$PLUGIN_DIR/volume.sh" \
            --subscribe volume volume_change \
@@ -103,9 +103,9 @@ sketchybar --set network background.color=0xc0373465 background.corner_radius=6 
 # sketchybar --add bracket volume_bracket volume --set volume_bracket blur_radius=30 background.color=0x40000000 background.corner_radius=10
 # sketchybar --add bracket battery_bracket battery --set battery_bracket blur_radius=30 background.color=0x40000000 background.corner_radius=10
 
+cd ./plugins && make
+
 ##### Force all scripts to run the first time (never do this in a script) #####
 sketchybar --update
 
 sketchybar --hotload true
-
-sketchybar --trigger packages INFO="$COUNT"

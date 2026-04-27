@@ -90,18 +90,10 @@ sketchybar --add item clock right \
            --set network script="$PLUGIN_DIR/network.sh" \
            --subscribe network wifi_change \
 
-# sketchybar --add bracket space space --set space blur_radius=30 background.color=0x40000000 background.corner_radius=10
-# sketchybar --add bracket tests front_app --set tests blur_radius=30 background.color=0x40000000 background.corner_radius=10
-
 sketchybar --set clock background.color=0xc0373465 background.corner_radius=6 label.padding_right=12 icon.padding_left=12 background.height=28 padding_right=0
 sketchybar --set volume background.color=0xc0373465 background.corner_radius=6 label.padding_right=12 icon.padding_left=12 background.height=28 padding_right=3
 sketchybar --set battery background.color=0xc0373465 background.corner_radius=6 label.padding_right=12 icon.padding_left=12 background.height=28 padding_right=3
 sketchybar --set network background.color=0xc0373465 background.corner_radius=6 label.padding_right=12 icon.padding_left=12 background.height=28 padding_right=3
-# sketchybar --set brew_packages background.color=0xc0814c5e background.corner_radius=6 label.padding_right=12 icon.padding_left=12 background.height=28 padding_right=3
-
-# sketchybar --add bracket clock_bracket clock --set clock_bracket blur_radius=30 background.color=0xffffffff background.corner_radius=10
-# sketchybar --add bracket volume_bracket volume --set volume_bracket blur_radius=30 background.color=0x40000000 background.corner_radius=10
-# sketchybar --add bracket battery_bracket battery --set battery_bracket blur_radius=30 background.color=0x40000000 background.corner_radius=10
 
 cd ./plugins && make
 

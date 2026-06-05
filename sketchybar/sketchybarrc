@@ -1,33 +1,40 @@
 #!/bin/bash
 
-# This is a demo config to showcase some of the most important commands.
-# It is meant to be changed and configured, as it is intentionally kept sparse.
-# For a (much) more advanced configuration example see my dotfiles:
-# https://github.com/FelixKratz/dotfiles
-
 PLUGIN_DIR="$CONFIG_DIR/plugins"
 
-##### Bar Appearance #####
-# Configuring the general appearance of the bar.
-# These are only some of the options available. For all options see:
-# https://felixkratz.github.io/SketchyBar/config/bar
-# If you are looking for other colors, see the color picker:
-# https://felixkratz.github.io/SketchyBar/config/tricks#color-picker
+# Palette.
+WHITE=0xffffffff
+BAR_BG=0x40373454
+BAR_BORDER=0xff373454
+ITEM_BG=0xc0373465
+POPUP_BG=0xff373465
 
-sketchybar --bar position=top height=36 blur_radius=15 color=0x40373454 y_offset=8 margin=8 corner_radius=10 padding_left=4 padding_right=4 border_color=0xff373454 border_width=1
+# Fonts.
+FONT_ICON="SF Pro:Semibold:14.0"
+FONT_LABEL="SF Mono:Bold:14.0"
 
-##### Changing Defaults #####
-# We now change some default values, which are applied to all further items.
-# For a full list of all available item properties see:
-# https://felixkratz.github.io/SketchyBar/config/items
+# Bar geometry and appearance.
+sketchybar --bar \
+  position=top \
+  height=36 \
+  blur_radius=15 \
+  color=$BAR_BG \
+  border_color=$BAR_BORDER \
+  border_width=1 \
+  corner_radius=10 \
+  margin=8 \
+  y_offset=8 \
+  padding_left=4 \
+  padding_right=4
 
+# Defaults inherited by every item.
 default=(
   padding_left=0
   padding_right=0
-  icon.font="SF Pro:Semibold:14.0"
-  label.font="SF Mono:Bold:14.0"
-  icon.color=0xffffffff
-  label.color=0xffffffff
+  icon.font="$FONT_ICON"
+  label.font="$FONT_LABEL"
+  icon.color=$WHITE
+  label.color=$WHITE
   icon.padding_left=4
   icon.padding_right=4
   label.padding_left=4
@@ -35,69 +42,77 @@ default=(
 )
 sketchybar --default "${default[@]}"
 
-##### Adding Mission Control Space Indicators #####
-# Let's add some mission control spaces:
-# https://felixkratz.github.io/SketchyBar/config/components#space----associate-mission-control-spaces-with-an-item
-# to indicate active and available mission control spaces.
+# Shared rounded pill background for items.
+item=(
+  background.color=$ITEM_BG
+  background.corner_radius=6
+  background.height=28
+  icon.padding_left=12
+  label.padding_right=12
+)
 
-# SPACE_ICONS=("1" "2" "3" "4" "5" "6" "7" "8" "9" "10" "11" "12" "13" "14" "15")
-# for i in "${!SPACE_ICONS[@]}"
-# do
-#   sid="$((i+1))"
-#   space=(
-#     space="$sid"
-#     icon="${SPACE_ICONS[i]}"
-#     align=center
-#     background.color=0x40efddc2
-#     background.corner_radius=6
-#     background.height=28
-#     width=28
-#     label.drawing=off
-#     script="$PLUGIN_DIR/space.sh"
-#     click_script="yabai -m space --focus $sid"
-#   )
-#   sketchybar --add space space."$sid" left --set space."$sid" "${space[@]}"
-# done
-
-##### Adding Left Items #####
-# We add some regular items to the left side of the bar, where
-# only the properties deviating from the current defaults need to be set
-
+# Left: focused application name.
 sketchybar --add item front_app left \
-           --set front_app icon.drawing=on script="$PLUGIN_DIR/front_app.sh" background.color=0xc0373465 background.corner_radius=6 padding_left=0 icon.padding_left=12 label.padding_right=12 background.height=28 align=center \
+           --set front_app "${item[@]}" \
+                 icon.drawing=on \
+                 script="$PLUGIN_DIR/front_app.sh" \
+                 padding_left=0 \
+                 align=center \
            --subscribe front_app front_app_switched
 
-##### Adding Right Items #####
-# In the same way as the left items we can add items to the right side.
-# Additional position (e.g. center) are available, see:
-# https://felixkratz.github.io/SketchyBar/config/items#adding-items-to-sketchybar
-
-# Some items refresh on a fixed cycle, e.g. the clock runs its script once
-# every 10s. Other items respond to events they subscribe to, e.g. the
-# volume.sh script is only executed once an actual change in system audio
-# volume is registered. More info about the event system can be found here:
-# https://felixkratz.github.io/SketchyBar/config/events
-
+# Right: clock, volume, battery, network.
 sketchybar --add item clock right \
-           --set clock script="$PLUGIN_DIR/clock/clock.sh" \
+           --set clock "${item[@]}" \
+                 script="$PLUGIN_DIR/clock/clock.sh" \
+                 padding_right=0 \
            --add item volume right \
-           --set volume script="$PLUGIN_DIR/volume.sh" \
+           --set volume "${item[@]}" \
+                 script="$PLUGIN_DIR/volume.sh" \
+                 padding_right=3 \
            --subscribe volume volume_change \
            --add item battery right \
-           --set battery update_freq=120 script="$PLUGIN_DIR/battery.sh" \
+           --set battery "${item[@]}" \
+                 update_freq=120 \
+                 script="$PLUGIN_DIR/battery.sh" \
+                 padding_right=3 \
            --subscribe battery system_woke power_source_change \
            --add item network right \
-           --set network script="$PLUGIN_DIR/network.sh" \
-           --subscribe network wifi_change \
+           --set network "${item[@]}" \
+                 script="$PLUGIN_DIR/network.sh" \
+                 update_freq=2 \
+                 click_script="sketchybar --set network popup.drawing=toggle" \
+                 popup.align=center \
+                 popup.background.color=$POPUP_BG \
+                 popup.background.corner_radius=6 \
+                 popup.background.border_width=1 \
+                 popup.background.border_color=$BAR_BORDER \
+                 padding_right=3 \
+           --subscribe network wifi_change
 
-sketchybar --set clock background.color=0xc0373465 background.corner_radius=6 label.padding_right=12 icon.padding_left=12 background.height=28 padding_right=0
-sketchybar --set volume background.color=0xc0373465 background.corner_radius=6 label.padding_right=12 icon.padding_left=12 background.height=28 padding_right=3
-sketchybar --set battery background.color=0xc0373465 background.corner_radius=6 label.padding_right=12 icon.padding_left=12 background.height=28 padding_right=3
-sketchybar --set network background.color=0xc0373465 background.corner_radius=6 label.padding_right=12 icon.padding_left=12 background.height=28 padding_right=3
+# Network popup rows: live down/up rates, toggled by clicking the item.
+# Fixed width keeps the popup from resizing as the rate values change.
+sketchybar --add item network.down popup.network \
+           --set network.down icon=↓ label=0B width=110 \
+           --add item network.up popup.network \
+           --set network.up icon=↑ label=0B width=110
 
-cd ./plugins && make
+# CPU usage graph; the cpu_load helper pushes utilization to it every tick.
+sketchybar --add graph cpu right 42 \
+           --set cpu "${item[@]}" \
+                 graph.color=$WHITE \
+                 icon.width=64 \
+                 icon.align=left \
+                 click_script="open -a 'Activity Monitor'" \
+                 padding_right=3
 
-##### Force all scripts to run the first time (never do this in a script) #####
+# Build the C plugins.
+cd "$PLUGIN_DIR" && make
+
+# Start the CPU load helper (pushes utilization to the cpu graph every 2s).
+killall cpu_load 2>/dev/null
+"$PLUGIN_DIR/cpu/bin/cpu_load" 2.0 &
+
+# Run every item script once on load.
 sketchybar --update
 
 sketchybar --hotload true

@@ -1,49 +1,54 @@
-# Jayson's .dotfiles 🔥
+# Jayson's .dotfiles
 
-## Steps to bootstrap a new Mac
+Dotfiles for nvim, yabai, sketchybar, ghostty, vim, and git.
 
-### 1. Install Apple's Command Line Tools. These are needed for Git and Homebrew.
+## Bootstrap a new Mac
 
-`xcode-select --install`
+### 1. Install Apple's Command Line Tools (needed for Git and Homebrew)
 
-### 2. Clone the repo into a new hidden directory `~/.dotfiles`
+```bash
+xcode-select --install
+```
+
+### 2. Clone the repo to `~/.dotfiles`
 
 ```bash
 # SSH
 git clone git@github.com:jaysonacosta/dotfiles.git ~/.dotfiles
 
-# HTTPS & switch remotes later
-git clone https://github.com/jaysonacosta/dotfiles.git
+# HTTPS
+git clone https://github.com/jaysonacosta/dotfiles.git ~/.dotfiles
 ```
 
-### 3. Bootstrap `~/.dotfiles/BOOTSTRAP.sh`
+### 3. Run the bootstrap (idempotent)
 
 ```bash
-$ ~/.dotfiles/BOOTSTRAP.sh
+~/.dotfiles/BOOTSTRAP.sh
 ```
 
-## Steps to bootstrap a new Linux machine
+## Bootstrap a new Linux machine
 
 ### 1. Install Git
-`sudo apt-get install git-all`
-
-### 2. Clone the repo into a new hidden directory `~/.dotfiles`
 
 ```bash
-# SSH
+sudo apt-get install git-all
+```
+
+### 2. Clone the repo to `~/.dotfiles`
+
+```bash
 git clone git@github.com:jaysonacosta/dotfiles.git ~/.dotfiles
-
-# HTTPS & switch remotes later
-git clone https://github.com/jaysonacosta/dotfiles.git
 ```
 
-### 3. Bootstrap `~/.dotfiles/BOOTSTRAP.sh`
+### 3. Run the bootstrap
 
 ```bash
-$ ~/.dotfiles/BOOTSTRAP.sh
+~/.dotfiles/BOOTSTRAP.sh
 ```
+
+The bootstrap links cross-platform configs everywhere and the macOS-only
+configs (yabai, sketchybar, ghostty) on macOS.
 
 ## Fonts
 
-### 1. Install MesloLGS Nerd Fonts
-[MesloLGS Nerd Fonts](https://github.com/IlanCosman/tide#fonts)
+The Brewfile installs SF Mono (code editor font) and SF Symbols (sketchybar glyphs).

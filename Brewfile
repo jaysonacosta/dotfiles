@@ -1,16 +1,35 @@
-tap "homebrew/bundle"
-tap "homebrew/cask"
-tap "homebrew/cask-fonts"
-tap "homebrew/core"
-# Open source suite of directory software
-brew "openldap"
-# Get a file from an HTTP, HTTPS or FTP server
-brew "curl"
-# User-friendly command-line shell for UNIX-like operating systems
-brew "fish"
-# Distributed revision control system
+# Install with: brew bundle --file ~/.dotfiles/Brewfile
+
+# Window manager and status bar taps.
+tap "felixkratz/formulae"
+tap "koekeishiya/formulae"
+
+# Editor and nvim (lazyvim) deps.
+brew "neovim"
 brew "git"
-# Platform built on V8 to build network applications
+brew "git-delta"
+brew "ripgrep"
+brew "fd"
+brew "fzf"
+brew "lazygit"
 brew "node"
-# Platform built on V8 to build network applications
-brew "node@16"
+
+# Window manager and status bar.
+brew "koekeishiya/formulae/yabai"
+brew "felixkratz/formulae/sketchybar"
+
+# Terminal.
+cask "ghostty"
+
+# SF Symbols glyphs for sketchybar.
+cask "sf-symbols"
+
+# SF Mono font for code editors.
+cask "font-sf-mono"
+
+# Apps.
+cask "arc"
+cask "visual-studio-code"
+cask "obsidian"
+cask "keycastr"
+cask "numi"

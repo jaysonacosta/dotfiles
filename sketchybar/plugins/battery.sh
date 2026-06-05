@@ -1,28 +1,49 @@
-#!/bin/bash
+#!/usr/bin/env bash
+# Battery item: level icon + percentage.
+# Shows the estimated time remaining while charging or discharging.
 
-PERCENTAGE="$(pmset -g batt | grep -Eo "\d+%" | cut -d% -f1)"
-CHARGING="$(pmset -g batt | grep 'AC Power')"
+BATT="$(pmset -g batt)"
+PERCENT="$(grep -Eo '[0-9]+%' <<<"$BATT" | head -n1 | tr -d '%')"
 
-if [ "$PERCENTAGE" = "" ]; then
+# No battery (desktop) or read failure: hide the item.
+if [[ -z "$PERCENT" ]]; then
+  sketchybar --set "$NAME" drawing=off
   exit 0
 fi
+PERCENT=$((10#$PERCENT)) # force base-10, avoid octal on a leading zero
 
-case "${PERCENTAGE}" in
-  [7][5-9]|[8-9][0-9]|100) ICON="􀛨"
-  ;;
-  [5-6][0-9]|[7][0-4]) ICON="􀺸"
-  ;;
-  [2][4-9]|[3-4][0-9]) ICON="􀺶"
-  ;;
-  [2][4-9]|[3-4][0-9]) ICON="􀛩"
-  ;;
-  *) ICON="􀛪"
-esac
+# Charge state.
+PLUGGED=false
+[[ "$BATT" == *"AC Power"* ]] && PLUGGED=true
+CHARGED=false
+[[ "$BATT" == *"; charged"* ]] && CHARGED=true
 
-if [[ "$CHARGING" != "" ]]; then
+# Estimated time remaining (H:MM); blank when full or unknown.
+TIME="$(grep -Eo '[0-9]+:[0-9]{2}' <<<"$BATT" | head -n1)"
+[[ "$TIME" == "0:00" ]] && TIME=""
+
+# Icon by level; charging bolt while plugged in.
+if $PLUGGED; then
   ICON="􀢋"
+elif ((PERCENT >= 76)); then
+  ICON="􀛨"
+elif ((PERCENT >= 51)); then
+  ICON="􀺸"
+elif ((PERCENT >= 26)); then
+  ICON="􀺶"
+elif ((PERCENT >= 11)); then
+  ICON="􀛩"
+else
+  ICON="􀛪"
 fi
 
-# The item invoking this script (name $NAME) will get its icon and label
-# updated with the current battery status
-sketchybar --set "$NAME" icon="$ICON" label="${PERCENTAGE}%"
+# Label: percentage, plus time estimate when not full.
+LABEL="${PERCENT}%"
+if [[ -n "$TIME" ]] && ! $CHARGED; then
+  LABEL="${PERCENT}% ${TIME}"
+fi
+
+sketchybar --set "$NAME" \
+  drawing=on \
+  icon="$ICON" \
+  label="$LABEL"
